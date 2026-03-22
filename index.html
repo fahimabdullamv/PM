@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Fahim Abdulla — Product Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root{
+  --bg:#07090f; --bg2:#0b0e17; --bg3:#0d1120;
+  --panel:#131826; --panel2:#18202f;
+  --accent:#5b8af5; --cyan:#38bdf8;
+  --gold:#e8a923; --goldf:rgba(232,169,35,.09); --goldb:rgba(232,169,35,.22);
+  --af:rgba(91,138,245,.1); --cf:rgba(56,189,248,.07);
+  --bdr:rgba(91,138,245,.13); --line:rgba(255,255,255,.05);
+  --text:#cdd5e8; --muted:#8294b0; --sub:#5a6a84; --white:#fff;
+  --r:5px; --nh:60px;
+  --ease:cubic-bezier(.4,0,.2,1);
+  --ease-out:cubic-bezier(0,.55,.45,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;line-height:1.7;
+  overflow-x:hidden;cursor:none;
+}
+
+#spb{
+  position:fixed;top:0;left:0;height:2px;width:0%;
+  z-index:9999;pointer-events:none;
+  background:linear-gradient(90deg,var(--accent),var(--cyan));
+  transition:width .08s linear;
+}
+.cd,.cr{
+  position:fixed;top:0;left:0;border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);will-change:left,top;
+}
+.cd{width:6px;height:6px;background:var(--cyan);}
+.cr{
+  width:28px;height:28px;border:1px solid rgba(56,189,248,.3);
+  transition:width .22s var(--ease),height .22s var(--ease),border-color .22s;
+}
+body:has(a:hover) .cr{width:40px;height:40px;border-color:rgba(56,189,248,.55);}
+
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9990;opacity:.17;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+}
+.amb{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 900px 700px at 80% 8%, rgba(91,138,245,.05) 0%,transparent 60%),
+    radial-gradient(ellipse 500px 400px at 4% 86%,rgba(56,189,248,.035) 0%,transparent 60%);
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;height:var(--nh);
+  display:flex;align-items:center;justify-content:space-between;padding:0 56px;
+  background:rgba(7,9,15,.88);backdrop-filter:blur(28px) saturate(1.4);
+  border-bottom:1px solid var(--bdr);
+}
+.nl{
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:1.5px;
+  color:var(--white);text-decoration:none;display:flex;align-items:center;gap:10px;
+}
+.nl-dot{width:7px;height:7px;background:var(--cyan);border-radius:50%;animation:blink 2.8s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.nls{display:flex;list-style:none;}
+.nls a{
+  display:flex;align-items:center;height:var(--nh);padding:0 14px;
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.5px;
+  color:var(--sub);text-decoration:none;text-transform:uppercase;
+  transition:color .2s;position:relative;
+}
+.nls a::after{
+  content:'';position:absolute;bottom:0;left:14px;right:14px;height:2px;
+  background:var(--cyan);transform:scaleX(0);
+  transition:transform .25s var(--ease);border-radius:2px 2px 0 0;
+}
+.nls a:hover,.nls a.active{color:var(--cyan);}
+.nls a:hover::after,.nls a.active::after{transform:scaleX(1);}
+.nb{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--bg);background:var(--cyan);
+  text-decoration:none;padding:9px 22px;border-radius:var(--r);font-weight:600;
+  transition:background .2s,transform .15s,box-shadow .2s;
+}
+.nb:hover{background:#5ecffa;transform:translateY(-1px);box-shadow:0 6px 20px rgba(56,189,248,.22);}
+
+/* ── LAYOUT ── */
+.w{max-width:1160px;margin:0 auto;padding:0 56px;}
+section{padding:100px 0;position:relative;}
+.s2{background:var(--bg2);} .s3{background:var(--bg3);}
+
+.sh{display:flex;align-items:center;gap:14px;margin-bottom:56px;}
+.sh-n{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:3px;color:var(--cyan);opacity:.75;}
+.sh-t{font-family:'Syne',sans-serif;font-size:clamp(20px,2.2vw,28px);font-weight:700;color:var(--white);white-space:nowrap;}
+.sh-r{flex:1;height:1px;background:linear-gradient(90deg,var(--bdr),transparent);}
+
+.rv{opacity:0;transform:translateY(28px);transition:opacity .75s var(--ease),transform .75s var(--ease);}
+.rv.in{opacity:1;transform:none;}
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero{
+  min-height:100vh;max-width:1160px;margin:0 auto;
+  padding:calc(var(--nh) + 72px) 56px 88px;
+  display:grid;grid-template-columns:1fr 330px;align-items:center;gap:72px;
+  position:relative;z-index:1;
+}
+.hbadge{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2.5px;
+  color:var(--cyan);text-transform:uppercase;padding:6px 14px;
+  border:1px solid rgba(56,189,248,.2);background:rgba(56,189,248,.05);
+  border-radius:40px;margin-bottom:22px;
+}
+.bp{width:6px;height:6px;background:var(--cyan);border-radius:50%;flex-shrink:0;animation:blink 2s ease-in-out infinite;}
+h1.hn{
+  font-family:'Syne',sans-serif;font-size:clamp(46px,5.8vw,80px);font-weight:800;
+  color:var(--white);line-height:.92;letter-spacing:-3px;margin-bottom:14px;
+}
+h1.hn em{color:transparent;-webkit-text-stroke:1.5px var(--cyan);font-style:normal;}
+.hsub{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;
+  color:var(--sub);text-transform:uppercase;margin-bottom:22px;
+}
+.hbio{font-size:15.5px;color:var(--muted);line-height:1.85;max-width:480px;margin-bottom:32px;}
+.hbio strong{color:var(--text);font-weight:500;}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:36px;}
+.chip{
+  font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1.5px;
+  color:var(--sub);text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);
+  padding:5px 11px;border-radius:40px;transition:all .2s;cursor:default;
+}
+.chip:hover{border-color:rgba(56,189,248,.35);color:var(--cyan);background:var(--cf);}
+
+.hbtns{display:flex;gap:12px;flex-wrap:wrap;}
+.btn{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.8px;
+  text-transform:uppercase;text-decoration:none;padding:13px 28px;
+  border-radius:var(--r);border:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;transition:all .22s var(--ease);
+}
+.btn-f{background:var(--accent);color:var(--white);}
+.btn-f:hover{background:#7ba4f8;transform:translateY(-2px);box-shadow:0 10px 28px rgba(91,138,245,.28);}
+.btn-o{background:transparent;color:var(--cyan);border:1px solid rgba(56,189,248,.28);}
+.btn-o:hover{background:var(--cf);border-color:rgba(56,189,248,.55);}
+
+/* profile card */
+.pcard{position:relative;padding-right:14px;}
+.pcard-glow{
+  position:absolute;top:-3px;left:-3px;right:11px;bottom:-3px;z-index:0;
+  border-radius:calc(var(--r)*1.5);
+  background:linear-gradient(145deg,rgba(91,138,245,.55) 0%,transparent 40%,rgba(56,189,248,.2) 100%);
+  opacity:.42;filter:blur(1px);
+}
+.pcard-inner{
+  position:relative;z-index:1;width:100%;aspect-ratio:.76;
+  background:var(--panel);border:1px solid rgba(91,138,245,.18);
+  border-radius:calc(var(--r)*1.5);overflow:hidden;
+}
+.pcard-init{
+  position:absolute;bottom:-8px;right:4px;
+  font-family:'Syne',sans-serif;font-size:96px;font-weight:800;
+  color:rgba(91,138,245,.07);line-height:1;user-select:none;pointer-events:none;
+}
+.pcard-photo{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:top;display:block;z-index:2;
+  transition:transform .6s var(--ease);
+}
+.pcard-inner:hover .pcard-photo{transform:scale(1.04);}
+.pcard-shade{
+  position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:linear-gradient(to bottom,transparent 44%,rgba(7,9,15,.92) 100%);
+}
+.pcard-stats{position:absolute;bottom:0;left:0;right:0;padding:14px;z-index:4;display:flex;gap:5px;}
+.ps{
+  flex:1;background:rgba(7,9,15,.8);border:1px solid rgba(91,138,245,.15);
+  border-radius:var(--r);padding:8px 5px;text-align:center;backdrop-filter:blur(16px);
+}
+.psv{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--cyan);display:block;line-height:1;}
+.psl{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.8px;color:var(--sub);text-transform:uppercase;display:block;margin-top:4px;}
+.ptags{position:absolute;top:18px;right:0;display:flex;flex-direction:column;gap:7px;z-index:10;}
+.ptag{
+  font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1.5px;
+  color:var(--cyan);text-transform:uppercase;
+  border:1px solid rgba(91,138,245,.2);background:rgba(7,9,15,.92);
+  padding:5px 10px;border-radius:var(--r);white-space:nowrap;
+  animation:floaty 3.5s ease-in-out infinite;backdrop-filter:blur(12px);
+}
+.ptag:nth-child(2){animation-delay:.9s;} .ptag:nth-child(3){animation-delay:1.8s;}
+@keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+
+/* ── METRICS STRIP ── */
+.mstrip{background:var(--panel);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);}
+.minner{max-width:1160px;margin:0 auto;padding:0 56px;display:grid;grid-template-columns:repeat(4,1fr);}
+.met{padding:38px 24px;text-align:center;border-right:1px solid var(--bdr);transition:background .3s;}
+.met:last-child{border-right:none;}
+.met:hover{background:var(--panel2);}
+.mv{font-family:'Syne',sans-serif;font-size:clamp(30px,3.2vw,48px);font-weight:800;color:var(--white);line-height:1;margin-bottom:10px;}
+.mv em{color:var(--cyan);font-style:normal;}
+.ml{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1.3px;color:var(--sub);text-transform:uppercase;line-height:1.7;}
+
+/* ── PM FRAMEWORK ── */
+.pgrid{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--bdr);border-radius:calc(var(--r)*2);overflow:hidden;}
+.pc{padding:32px 24px;background:var(--panel);border-right:1px solid var(--bdr);position:relative;transition:background .3s;}
+.pc:last-child{border-right:none;}
+.pc:hover{background:var(--panel2);}
+.pc-bar{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .35s;}
+.pc:hover .pc-bar{opacity:1;}
+.pc-n{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:rgba(91,138,245,.06);line-height:1;margin-bottom:8px;}
+.pc-step{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2.5px;color:var(--accent);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.pc-step::before{content:'';width:14px;height:1px;background:var(--accent);}
+.pc-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px;}
+.pc-desc{font-size:12px;color:var(--sub);line-height:1.8;}
+.pc-tools{display:flex;flex-wrap:wrap;gap:5px;margin-top:16px;}
+.pct{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.8px;color:var(--accent);text-transform:uppercase;border:1px solid rgba(91,138,245,.18);background:rgba(91,138,245,.05);padding:3px 7px;border-radius:2px;}
+
+/* ── CASE STUDIES ── */
+.cases{display:flex;flex-direction:column;gap:16px;}
+.ccase{
+  background:var(--panel);border:1px solid var(--bdr);
+  border-radius:calc(var(--r)*2);overflow:hidden;
+  transition:border-color .35s,box-shadow .35s,transform .35s;
+}
+.ccase:hover{
+  border-color:rgba(91,138,245,.32);
+  box-shadow:0 12px 48px rgba(91,138,245,.07);
+  transform:translateY(-2px);
+}
+
+/* PM case study layout — two column */
+.cc-body{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.cc-left{padding:44px 44px;border-right:1px solid var(--bdr);}
+.cc-right{padding:44px 44px;display:flex;flex-direction:column;gap:28px;}
+.ccase:hover .cc-left,.ccase:hover .cc-right{background:var(--panel2);}
+.cc-left,.cc-right{transition:background .3s;}
+
+.cc-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;
+  color:var(--accent);text-transform:uppercase;
+  border:1px solid rgba(91,138,245,.2);background:rgba(91,138,245,.05);
+  padding:4px 12px;border-radius:40px;margin-bottom:18px;
+}
+.cc-title{font-family:'Syne',sans-serif;font-size:clamp(18px,2vw,24px);font-weight:700;color:var(--white);line-height:1.15;margin-bottom:14px;}
+.cc-problem{font-size:13.5px;color:var(--muted);line-height:1.85;margin-bottom:22px;}
+
+.cc-my-role{margin-bottom:22px;}
+.cc-my-role-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--sub);text-transform:uppercase;margin-bottom:10px;}
+.role-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.role-chip{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1px;color:var(--cyan);text-transform:uppercase;border:1px solid rgba(56,189,248,.18);background:rgba(56,189,248,.04);padding:3px 9px;border-radius:2px;}
+
+.cc-block-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--sub);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.cc-block-label::after{content:'';flex:1;height:1px;background:var(--bdr);}
+
+/* metrics row */
+.cc-metrics{display:flex;gap:12px;}
+.cc-met{flex:1;background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--r);padding:14px 12px;text-align:center;transition:border-color .2s;}
+.cc-met:hover{border-color:rgba(56,189,248,.3);}
+.cc-mv{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--cyan);line-height:1;display:block;}
+.cc-ml{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.8px;color:var(--sub);text-transform:uppercase;display:block;margin-top:5px;line-height:1.5;}
+
+/* learnings */
+.cc-learn-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.cc-learn-list li{font-size:12.5px;color:var(--sub);line-height:1.75;padding-left:18px;position:relative;}
+.cc-learn-list li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:10px;top:3px;opacity:.7;}
+
+/* hypothesis / approach */
+.cc-approach{background:rgba(91,138,245,.04);border:1px solid rgba(91,138,245,.1);border-radius:var(--r);padding:16px 18px;}
+.cc-approach p{font-size:13px;color:var(--muted);line-height:1.8;font-style:italic;}
+
+/* ── PM SKILLS ── */
+.skills-g{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.sk{
+  background:var(--panel);border:1px solid var(--bdr);
+  border-radius:calc(var(--r)*2);padding:28px 26px;
+  transition:all .3s var(--ease);
+}
+.sk:hover{background:var(--panel2);border-color:rgba(91,138,245,.28);transform:translateY(-4px);box-shadow:0 12px 32px rgba(91,138,245,.07);}
+.sk-icon{font-size:24px;margin-bottom:14px;display:block;}
+.sk-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:8px;}
+.sk-desc{font-size:12.5px;color:var(--sub);line-height:1.8;margin-bottom:16px;}
+.sk-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.sk-tag{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:1px;color:var(--accent);text-transform:uppercase;border:1px solid rgba(91,138,245,.18);background:rgba(91,138,245,.04);padding:3px 8px;border-radius:2px;}
+
+/* ── TOOLKIT ── */
+.tools-g{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;}
+.tool{
+  background:var(--panel);border:1px solid var(--bdr);border-radius:calc(var(--r)*1.5);
+  padding:20px 16px;text-align:center;transition:all .25s var(--ease);
+}
+.tool:hover{background:var(--panel2);border-color:rgba(56,189,248,.3);transform:translateY(-3px);}
+.tool-i{font-size:24px;display:block;margin-bottom:10px;}
+.tool-n{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1px;color:var(--sub);text-transform:uppercase;}
+.tool:hover .tool-n{color:var(--cyan);}
+
+/* ── TRANSITION STORY ── */
+.trans-g{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
+.trans-timeline{position:relative;padding-left:40px;}
+.trans-timeline::before{
+  content:'';position:absolute;left:6px;top:20px;bottom:8px;width:1px;
+  background:linear-gradient(180deg,var(--cyan) 0%,rgba(91,138,245,.06) 100%);
+}
+.tt-item{
+  position:relative;padding-bottom:44px;
+  opacity:0;transform:translateX(-16px);
+  transition:opacity .65s var(--ease),transform .65s var(--ease);
+}
+.tt-item.in{opacity:1;transform:none;}
+.tt-item:last-child{padding-bottom:0;}
+.tt-item::before{
+  content:'';position:absolute;left:-37px;top:6px;
+  width:10px;height:10px;border:2px solid var(--cyan);
+  background:var(--bg3);border-radius:50%;
+  transition:background .3s,box-shadow .3s;
+}
+.tt-item:hover::before{background:var(--cyan);box-shadow:0 0 12px rgba(56,189,248,.4);}
+.tt-phase{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px;}
+.tt-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.tt-co{font-size:12.5px;color:var(--accent);margin-bottom:12px;opacity:.85;}
+.tt-desc{font-size:13px;color:var(--sub);line-height:1.8;}
+.tt-pm-tag{
+  display:inline-flex;align-items:center;gap:5px;margin-top:12px;
+  font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:1.5px;
+  color:var(--gold);text-transform:uppercase;
+  border:1px solid var(--goldb);background:var(--goldf);
+  padding:4px 10px;border-radius:40px;
+}
+
+/* edge column */
+.trans-edge{display:flex;flex-direction:column;gap:16px;}
+.edge-card{background:var(--panel);border:1px solid var(--bdr);border-radius:calc(var(--r)*2);padding:26px 24px;transition:all .3s;}
+.edge-card:hover{background:var(--panel2);border-color:rgba(91,138,245,.28);transform:translateX(4px);}
+.edge-icon{font-size:22px;margin-bottom:12px;display:block;}
+.edge-title{font-family:'Syne',sans-serif;font-size:13.5px;font-weight:700;color:var(--white);margin-bottom:8px;}
+.edge-desc{font-size:12.5px;color:var(--sub);line-height:1.75;}
+
+/* ── EXPERIENCE ── */
+.exp-g{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
+.tl{position:relative;padding-left:40px;}
+.tl::before{
+  content:'';position:absolute;left:6px;top:20px;bottom:8px;width:1px;
+  background:linear-gradient(180deg,var(--accent) 0%,rgba(91,138,245,.06) 100%);
+}
+.tj{
+  position:relative;padding-bottom:48px;
+  opacity:0;transform:translateX(-16px);
+  transition:opacity .65s var(--ease),transform .65s var(--ease);
+}
+.tj.in{opacity:1;transform:none;}
+.tj:last-child{padding-bottom:0;}
+.tj::before{
+  content:'';position:absolute;left:-37px;top:15px;
+  width:10px;height:10px;border:2px solid var(--accent);
+  background:var(--bg3);border-radius:50%;
+  transition:background .3s,box-shadow .3s;
+}
+.tj:hover::before{background:var(--accent);box-shadow:0 0 12px rgba(91,138,245,.4);}
+.tj-hd{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:6px;margin-bottom:4px;}
+.tj-role{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--white);}
+.tj-date{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.8px;color:var(--sub);padding-top:4px;}
+.tj-co{font-size:12.5px;color:var(--accent);margin-bottom:14px;opacity:.85;}
+.tj-ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.tj-ul li{font-size:13px;color:var(--sub);line-height:1.75;padding-left:16px;position:relative;}
+.tj-ul li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:10px;top:3px;opacity:.7;}
+.edu-t{
+  font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:2.5px;
+  color:var(--sub);text-transform:uppercase;margin-bottom:22px;
+  padding-bottom:12px;border-bottom:1px solid var(--bdr);
+}
+.edu-b{margin-bottom:32px;}
+.edu-deg{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--white);margin-bottom:5px;}
+.edu-sch{font-size:13px;color:var(--accent);margin-bottom:9px;opacity:.85;}
+.edu-d{font-size:13px;color:var(--sub);line-height:1.75;}
+.ccedu-b{margin-bottom:32px;}
+.cert{
+  background:rgba(255,255,255,.025);border:1px solid var(--bdr);border-radius:var(--r);
+  padding:13px 16px;display:flex;justify-content:space-between;align-items:center;
+  gap:12px;margin-bottom:8px;transition:background .2s,border-color .2s,transform .2s;
+}
+.cert:hover{background:var(--panel);border-color:rgba(91,138,245,.25);transform:translateX(3px);}
+.cert-n{font-size:13px;color:var(--text);font-weight:500;}
+.cert-y{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1px;color:var(--sub);white-space:nowrap;}
+
+/* ── ABOUT ── */
+.about-g{display:grid;grid-template-columns:290px 1fr;gap:72px;align-items:start;}
+.about-img{position:relative;border-radius:calc(var(--r)*2);overflow:hidden;aspect-ratio:.82;background:var(--panel);border:1px solid var(--bdr);}
+.about-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;display:block;z-index:2;}
+.about-img-bar{position:absolute;bottom:0;left:0;right:0;height:2px;z-index:3;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+.about-text h3{font-family:'Syne',sans-serif;font-size:clamp(22px,2.5vw,32px);font-weight:700;color:var(--white);line-height:1.15;margin-bottom:16px;}
+.about-text p{font-size:14px;color:var(--sub);line-height:1.9;margin-bottom:14px;}
+.about-text strong{color:var(--text);font-weight:500;}
+.vals{display:flex;flex-direction:column;gap:14px;margin-top:24px;}
+.val{display:flex;gap:14px;align-items:flex-start;}
+.val-i{width:34px;height:34px;flex-shrink:0;background:rgba(91,138,245,.08);border:1px solid rgba(91,138,245,.18);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.val b{font-size:13.5px;color:var(--text);font-weight:600;display:block;margin-bottom:3px;}
+.val span{font-size:12.5px;color:var(--sub);line-height:1.6;}
+
+/* ── CONTACT ── */
+.cbox{max-width:600px;margin:0 auto;text-align:center;}
+.cbox h2{font-family:'Syne',sans-serif;font-size:clamp(32px,4.5vw,62px);font-weight:800;color:var(--white);line-height:.95;margin-bottom:20px;letter-spacing:-2px;}
+.cbox h2 em{color:transparent;-webkit-text-stroke:1.5px var(--cyan);font-style:normal;}
+.cbox p{font-size:15px;color:var(--sub);line-height:1.85;margin-bottom:36px;}
+.clinks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.cl{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;padding:12px 26px;border:1px solid var(--bdr);color:var(--sub);border-radius:var(--r);transition:all .25s var(--ease);display:inline-flex;align-items:center;gap:8px;}
+.cl:hover{color:var(--cyan);border-color:rgba(56,189,248,.4);background:var(--cf);transform:translateY(-2px);}
+.cl.p{background:var(--accent);color:var(--white);border-color:var(--accent);}
+.cl.p:hover{background:#7ba4f8;border-color:#7ba4f8;transform:translateY(-2px);box-shadow:0 8px 24px rgba(91,138,245,.25);}
+
+footer{background:var(--bg);border-top:1px solid var(--bdr);padding:32px 56px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.fc{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--sub);text-transform:uppercase;}
+.fc span{color:var(--accent);}
+.fs{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;color:var(--sub);text-transform:uppercase;opacity:.5;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:0 24px;}
+  .hero{grid-template-columns:1fr;padding-left:24px;padding-right:24px;}
+  .pcard{display:none;}
+  .w{padding:0 24px;}
+  .pgrid{grid-template-columns:1fr 1fr;}
+  .skills-g{grid-template-columns:1fr 1fr;}
+  .tools-g{grid-template-columns:repeat(4,1fr);}
+  .cc-body{grid-template-columns:1fr;}
+  .cc-right{border-top:1px solid var(--bdr);}
+  .cc-left{border-right:none;}
+  .trans-g,.exp-g,.about-g{grid-template-columns:1fr;}
+  .minner{grid-template-columns:repeat(2,1fr);}
+  .nls{display:none;}
+}
+</style>
+</head>
+<body>
+<div id="spb"></div>
+<div class="cd" id="cd"></div>
+<div class="cr" id="cr"></div>
+<div class="amb"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nl"><div class="nl-dot"></div>FAHIM ABDULLA</a>
+  <ul class="nls">
+    <li><a href="#approach">Approach</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <a href="#contact" class="nb">Let's talk →</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+<div class="hero">
+  <div>
+    <div class="hbadge"><div class="bp"></div>Open to PM &amp; PO Roles · Software as a product · B2C Consumer</div>
+    <h1 class="hn">Product<br><em>Manager</em> &amp; Owner</h1>
+    <div class="hsub">Discovery → Strategy → Execution → Growth</div>
+    <p class="hbio">
+      I've spent <strong>5+ years at the intersection of users, engineering, and business</strong> — as a developer who shipped code, and then as a designer who defined what to build. Now I'm stepping into the role I've been growing into the whole time: <strong>Product Manager / Owner</strong>.
+    </p>
+    <p class="hbio">
+      I bring a rare combination — <strong>technical depth from engineering</strong>, <strong>user obsession from design</strong>, and the cross-functional fluency to move fast in chaotic, ambiguous environments. I think in first principles, measure in outcomes, and ship in sprints.
+    </p>
+    <div class="chips">
+      <span class="chip">Software as a product</span>
+      <span class="chip">B2C Consumer</span>
+      <span class="chip">0 → 1 Products</span>
+      <span class="chip">User Research</span>
+      <span class="chip">Data-Driven</span>
+      <span class="chip">First Principles</span>
+      <span class="chip">Agile Execution</span>
+      <span class="chip">AI-augmented</span>
+    </div>
+    <div class="hbtns">
+      <a href="#experience" class="btn btn-o">Vist journey</a>
+      <a href="#work" class="btn btn-o">View Case Studies →</a>
+    </div>
+  </div>
+  <div class="pcard rv" style="transition-delay:.2s">
+    <div class="pcard-glow"></div>
+    <div class="pcard-inner">
+      <div class="pcard-init">FA</div>
+      <img src="assets/images/FAHIM.png" alt="Fahim Abdulla" class="pcard-photo"/>
+      <div class="pcard-shade"></div>
+      <div class="pcard-stats">
+        <div class="ps"><span class="psv">5<em>+</em></span><span class="psl">Years</span></div>
+        <div class="ps"><span class="psv">3</span><span class="psl">Roles</span></div>
+        <div class="ps"><span class="psv">B2C</span><span class="psl">Focus</span></div>
+      </div>
+    </div>
+    <div class="ptags">
+      <div class="ptag">PRD Writer</div>
+      <div class="ptag">User Research</div>
+      <div class="ptag">Metrics-led</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- METRICS STRIP -->
+<div class="mstrip">
+  <div class="minner">
+    <div class="met rv">
+      <div class="mv">5<em>+</em></div>
+      <div class="ml">Years building<br>digital products</div>
+    </div>
+    <div class="met rv" style="transition-delay:.08s">
+      <div class="mv">3</div>
+      <div class="ml">Distinct disciplines<br>Eng · Design · PM</div>
+    </div>
+    <div class="met rv" style="transition-delay:.16s">
+      <div class="mv">B2C</div>
+      <div class="ml">Consumer apps<br>only, always</div>
+    </div>
+    <div class="met rv" style="transition-delay:.24s">
+      <div class="mv">0<em>→</em>1</div>
+      <div class="ml">Products built<br>from scratch</div>
+    </div>
+  </div>
+</div>
+
+<!-- PM APPROACH -->
+<section id="approach" class="s2">
+<div class="w">
+  <div class="sh rv"><span class="sh-n">01</span><h2 class="sh-t">How I Work</h2><div class="sh-r"></div></div>
+  <div class="pgrid rv" style="transition-delay:.08s">
+    <div class="pc">
+      <div class="pc-bar"></div>
+      <div class="pc-n">01</div>
+      <div class="pc-step">Discover</div>
+      <div class="pc-title">Understand before you solve</div>
+      <div class="pc-desc">User interviews, session recordings, funnel analysis. I don't trust assumptions — including my own. Every problem statement earns its way in.</div>
+      <div class="pc-tools"><span class="pct">User Interviews</span><span class="pct">SQL</span><span class="pct">Analytics</span></div>
+    </div>
+    <div class="pc">
+      <div class="pc-bar"></div>
+      <div class="pc-n">02</div>
+      <div class="pc-step">Define</div>
+      <div class="pc-title">Frame the right problem</div>
+      <div class="pc-desc">North Star metrics, success criteria, non-goals. A clear problem definition is half the solution — and it keeps the team aligned through ambiguity.</div>
+      <div class="pc-tools"><span class="pct">PRD</span><span class="pct">Metrics</span><span class="pct">Hypothesis</span></div>
+    </div>
+    <div class="pc">
+      <div class="pc-bar"></div>
+      <div class="pc-n">03</div>
+      <div class="pc-step">Prioritise</div>
+      <div class="pc-title">Say no to say yes</div>
+      <div class="pc-desc">Impact vs effort, opportunity sizing, strategic fit. I make hard trade-offs based on data and business goals — not pressure or HiPPO opinions.</div>
+      <div class="pc-tools"><span class="pct">Roadmap</span><span class="pct">Backlog</span><span class="pct">Trade-offs</span></div>
+    </div>
+    <div class="pc">
+      <div class="pc-bar"></div>
+      <div class="pc-n">04</div>
+      <div class="pc-step">Execute</div>
+      <div class="pc-title">Ship fast, learn faster</div>
+      <div class="pc-desc">Sprint cycles, unblocking engineering, tight feedback loops. I prefer a live product to a perfect plan. Launch is the beginning, not the end.</div>
+      <div class="pc-tools"><span class="pct">Jira</span><span class="pct">Sprints</span><span class="pct">Agile</span></div>
+    </div>
+    <div class="pc">
+      <div class="pc-bar"></div>
+      <div class="pc-n">05</div>
+      <div class="pc-step">Measure</div>
+      <div class="pc-title">Metrics tell the truth</div>
+      <div class="pc-desc">A/B tests, cohort analysis, retention curves. Every shipped feature is version 1.0. I measure outcomes — not output — and iterate relentlessly.</div>
+      <div class="pc-tools"><span class="pct">A/B Tests</span><span class="pct">Cohorts</span><span class="pct">Mixpanel</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="work" class="s3">
+<div class="w">
+  <div class="sh rv"><span class="sh-n">02</span><h2 class="sh-t">Case Studies</h2><div class="sh-r"></div></div>
+  <div class="cases">
+
+    <!-- CASE 1: Feed Engagement -->
+    <div class="ccase rv">
+      <div class="cc-body">
+        <div class="cc-left">
+          <div class="cc-tag">01 · Consumer Feed</div>
+          <h3 class="cc-title">Improving D7 Retention Through Personalised Feed Ranking</h3>
+          <p class="cc-problem">
+            A large portion of new users dropped off by day 7 — not because the content was bad, but because they saw the same types of posts repeatedly. The feed wasn't learning fast enough from early signals. High scroll rate, low save/share rate: users were bored, not engaged.
+          </p>
+          <div class="cc-approach">
+            <p>"The real problem wasn't content quality. It was that the ranking model was optimising for short-term clicks, not the type of engagement that predicts long-term retention."</p>
+          </div>
+          <div style="margin-top:22px;">
+            <div class="cc-my-role-label">My Role</div>
+            <div class="role-chips">
+              <span class="role-chip">Problem Definition</span>
+              <span class="role-chip">User Research</span>
+              <span class="role-chip">Metrics Framework</span>
+              <span class="role-chip">Stakeholder Alignment</span>
+              <span class="role-chip">PRD & Spec</span>
+            </div>
+          </div>
+        </div>
+        <div class="cc-right">
+          <div>
+            <div class="cc-block-label">Approach</div>
+            <ul class="cc-learn-list">
+              <li>Conducted 18 user interviews across new and churned users to understand content fatigue patterns</li>
+              <li>Analysed D1/D3/D7 retention cohorts with SQL to isolate the exact drop-off point and content categories driving churn</li>
+              <li>Defined new North Star metric: Saves + Shares per session (predictive of week-2 return) instead of raw session time</li>
+              <li>Wrote PRD for a diversity-injection layer in the feed ranking pipeline, worked with engineers on signal weighting</li>
+              <li>A/B tested with 10% traffic, iterated on diversity thresholds, rolled out in 3 phases</li>
+            </ul>
+          </div>
+          <div>
+            <div class="cc-block-label">Outcomes</div>
+            <div class="cc-metrics">
+              <div class="cc-met">
+                <span class="cc-mv">+18%</span>
+                <span class="cc-ml">D7 Retention</span>
+              </div>
+              <div class="cc-met">
+                <span class="cc-mv">+31%</span>
+                <span class="cc-ml">Save Rate</span>
+              </div>
+              <div class="cc-met">
+                <span class="cc-mv">−22%</span>
+                <span class="cc-ml">Churn D1–D7</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="cc-block-label">Key Learning</div>
+            <ul class="cc-learn-list">
+              <li>Optimising for the wrong metric at launch creates engagement debt that's expensive to recover from</li>
+              <li>Diversity in feed isn't about randomness — it's about pace of learning user preference signals</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 2: Creator Onboarding -->
+    <div class="ccase rv" style="transition-delay:.08s">
+      <div class="cc-body">
+        <div class="cc-left">
+          <div class="cc-tag">02 · Creator Tools</div>
+          <h3 class="cc-title">Reducing Creator Activation Drop-off by 40%</h3>
+          <p class="cc-problem">
+            Creators were signing up but fewer than 20% published their first piece of content within 7 days. A bloated, intimidating onboarding flow — designed for power users — was crushing activation for new creators who needed quick wins to build confidence.
+          </p>
+          <div class="cc-approach">
+            <p>"First-time creators don't need all the tools — they need one successful moment. Every step before that first publish is a potential exit point."</p>
+          </div>
+          <div style="margin-top:22px;">
+            <div class="cc-my-role-label">My Role</div>
+            <div class="role-chips">
+              <span class="role-chip">Discovery Research</span>
+              <span class="role-chip">Journey Mapping</span>
+              <span class="role-chip">Hypothesis Testing</span>
+              <span class="role-chip">Eng Collaboration</span>
+              <span class="role-chip">Launch & Iteration</span>
+            </div>
+          </div>
+        </div>
+        <div class="cc-right">
+          <div>
+            <div class="cc-block-label">Approach</div>
+            <ul class="cc-learn-list">
+              <li>Mapped full creator journey using session recordings and drop-off funnels — identified that step 3 of 7 had 60% abandonment</li>
+              <li>Ran 12 user interviews with non-activated creators; discovered the permission request flow felt "like a government form"</li>
+              <li>Proposed progressive onboarding: remove all non-critical steps from first session, defer power features to post-first-publish</li>
+              <li>Coordinated with the Design and Engineering squads to ship an MVP in 2 sprints — simplified 7-step flow to 3 steps</li>
+              <li>Set up instrumentation for first-publish funnel before rollout to measure with precision</li>
+            </ul>
+          </div>
+          <div>
+            <div class="cc-block-label">Outcomes</div>
+            <div class="cc-metrics">
+              <div class="cc-met">
+                <span class="cc-mv">+40%</span>
+                <span class="cc-ml">Activation Rate</span>
+              </div>
+              <div class="cc-met">
+                <span class="cc-mv">−58%</span>
+                <span class="cc-ml">Onboard Time</span>
+              </div>
+              <div class="cc-met">
+                <span class="cc-mv">2x</span>
+                <span class="cc-ml">W1 Publish Rate</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="cc-block-label">Key Learning</div>
+            <ul class="cc-learn-list">
+              <li>Complexity in onboarding is usually a symptom of internal org structure, not user needs</li>
+              <li>The best onboarding is invisible — it's just the product working as users expect it to</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE 3: Value Communication -->
+    <div class="ccase rv" style="transition-delay:.16s">
+      <div class="cc-body">
+        <div class="cc-left">
+          <div class="cc-tag">03 · Pricing & Conversion</div>
+          <h3 class="cc-title">Redesigning Value Communication to Drive Purchase Intent</h3>
+          <p class="cc-problem">
+            Cart abandonment was high despite aggressive discounts. Analytics showed users were adding items but bailing at the price confirmation screen. Exit survey data pointed to a single insight: users didn't trust the displayed savings — the discount UI felt confusing and potentially deceptive.
+          </p>
+          <div class="cc-approach">
+            <p>"The discount was real. The problem was that users couldn't parse it. Perception of value is a design problem as much as a pricing problem."</p>
+          </div>
+          <div style="margin-top:22px;">
+            <div class="cc-my-role-label">My Role</div>
+            <div class="role-chips">
+              <span class="role-chip">Problem Framing</span>
+              <span class="role-chip">Exit Survey Analysis</span>
+              <span class="role-chip">UX Strategy</span>
+              <span class="role-chip">A/B Testing</span>
+              <span class="role-chip">Conversion Tracking</span>
+            </div>
+          </div>
+        </div>
+        <div class="cc-right">
+          <div>
+            <div class="cc-block-label">Approach</div>
+            <ul class="cc-learn-list">
+              <li>Synthesised exit survey data with heatmap analysis to pinpoint the exact UI elements eroding trust</li>
+              <li>Ran a heuristic audit of the pricing display against 6 regional competitor apps — identified dark pattern proximity as the trust erosion driver</li>
+              <li>Defined 3 hypotheses for price display clarity, designed test variants with the Design team for controlled A/B test</li>
+              <li>Worked with the Data team to set up funnel tracking from PDP → Cart → Checkout confirmation as a single cohorted flow</li>
+              <li>Shipped winning variant; led post-launch review at 14-day and 30-day marks to validate durability of lift</li>
+            </ul>
+          </div>
+          <div>
+            <div class="cc-block-label">Outcomes</div>
+            <div class="cc-metrics">
+              <div class="cc-met">
+                <span class="cc-mv">+24%</span>
+                <span class="cc-ml">Checkout Conv.</span>
+              </div>
+              <div class="cc-met">
+                <span class="cc-mv">−19%</span>
+                <span class="cc-ml">Cart Abandon</span>
+              </div>
+              <div class="cc-met">
+                <span class="cc-mv">+11%</span>
+                <span class="cc-ml">Repeat Purchase</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="cc-block-label">Key Learning</div>
+            <ul class="cc-learn-list">
+              <li>Trust is harder to build and easier to lose than conversion rate optimization frameworks suggest</li>
+              <li>Price perception is psychological — you can't discount your way out of a trust deficit</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- PM SKILLS -->
+<section id="skills" class="s3">
+<div class="w">
+  <div class="sh rv"><span class="sh-n">03</span><h2 class="sh-t">PM Capabilities</h2><div class="sh-r"></div></div>
+  <div class="skills-g rv" style="transition-delay:.08s">
+    <div class="sk">
+      <span class="sk-icon">🔍</span>
+      <div class="sk-title">Product Discovery</div>
+      <div class="sk-desc">A structured process of understanding user needs, validating problems, and exploring potential solutions using research, data, and experimentation.</div>
+      <div class="sk-tags"><span class="sk-tag">User Interviews</span><span class="sk-tag">JTBD</span><span class="sk-tag">Persona Mapping</span><span class="sk-tag">Qualitative Research</span></div>
+    </div>
+    <div class="sk">
+      <span class="sk-icon">📊</span>
+      <div class="sk-title">Metrics & Experimentation</div>
+      <div class="sk-desc">Defining success metrics, analyzing product data, and running experiments such as A/B tests to validate hypotheses and improve product outcomes.</div>
+      <div class="sk-tags"><span class="sk-tag">SQL</span><span class="sk-tag">A/B Testing</span><span class="sk-tag">Cohort Analysis</span><span class="sk-tag">Mixpanel</span></div>
+    </div>
+    <div class="sk">
+      <span class="sk-icon">📝</span>
+      <div class="sk-title">PRD & Spec Writing</div>
+      <div class="sk-desc">Creating clear Product Requirement Documents and functional specifications that translate product ideas into structured requirements for design and engineering teams.</div>
+      <div class="sk-tags"><span class="sk-tag">PRDs</span><span class="sk-tag">User Stories</span><span class="sk-tag">Acceptance Criteria</span><span class="sk-tag">Confluence</span></div>
+    </div>
+    <div class="sk">
+      <span class="sk-icon">⚙️</span>
+      <div class="sk-title">Technical Fluency</div>
+      <div class="sk-desc">Understanding core technical concepts such as APIs, system architecture, and data flows to effectively collaborate with engineering teams and make informed product decisions.</div>
+      <div class="sk-tags"><span class="sk-tag">API Concepts</span><span class="sk-tag">System Design</span><span class="sk-tag">ML Basics</span><span class="sk-tag">Feed Ranking</span></div>
+    </div>
+    <div class="sk">
+      <span class="sk-icon">🚀</span>
+      <div class="sk-title">Agile Execution</div>
+      <div class="sk-desc">Leading product development through agile practices such as sprint planning, backlog prioritization, and iterative delivery to ensure continuous value for users.</div>
+      <div class="sk-tags"><span class="sk-tag">Scrum</span><span class="sk-tag">Jira</span><span class="sk-tag">Roadmapping</span><span class="sk-tag">Prioritisation</span></div>
+    </div>
+    <div class="sk">
+      <span class="sk-icon">🤝</span>
+      <div class="sk-title">Cross-functional Leadership</div>
+      <div class="sk-desc">Collaborating with engineering, design, marketing, and business teams to align product initiatives with user needs and business goals.</div>
+      <div class="sk-tags"><span class="sk-tag">Stakeholder Mgmt</span><span class="sk-tag">GTM</span><span class="sk-tag">Design Collab</span><span class="sk-tag">Eng Partnership</span></div>
+    </div>
+  </div>
+
+  <!-- TOOLKIT -->
+  <div class="sh rv" style="margin-top:72px;"><span class="sh-n">03b</span><h2 class="sh-t">Toolkit</h2><div class="sh-r"></div></div>
+  <div class="tools-g rv" style="transition-delay:.08s">
+    <div class="tool"><span class="tool-i">🗄️</span><div class="tool-n">SQL</div></div>
+    <div class="tool"><span class="tool-i">📊</span><div class="tool-n">Power BI</div></div>
+    <div class="tool"><span class="tool-i">🧪</span><div class="tool-n">A/B Tests</div></div>
+    <div class="tool"><span class="tool-i">🎯</span><div class="tool-n">Amplitude</div></div>
+    <div class="tool"><span class="tool-i">🗂️</span><div class="tool-n">Jira</div></div>
+    <div class="tool"><span class="tool-i">📝</span><div class="tool-n">Confluence</div></div>
+    <div class="tool"><span class="tool-i">🎨</span><div class="tool-n">Figma</div></div>
+    <div class="tool"><span class="tool-i">📲</span><div class="tool-n">UI/UX</div></div>
+    <div class="tool"><span class="tool-i">🤖</span><div class="tool-n">AI / LLMs</div></div>
+    <div class="tool"><span class="tool-i">🗂️</span><div class="tool-n">Backlogs</div></div>
+    <div class="tool"><span class="tool-i">📱</span><div class="tool-n">Mobile-first</div></div>
+    <div class="tool"><span class="tool-i">🗺️</span><div class="tool-n">Roadmapping</div></div>
+  </div>
+</div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="s2">
+<div class="w">
+  <div class="sh rv"><span class="sh-n">04</span><h2 class="sh-t">Experience</h2><div class="sh-r"></div></div>
+  <div class="exp-g rv" style="transition-delay:.08s">
+    <div class="tl">
+      <div class="tj">
+        <div class="tj-hd"><div class="tj-role">Product Owner</div><div class="tj-date">Feb 2022 – Present</div></div>
+        <div class="tj-co">DynamicNext Technologies Pvt Ltd · Full-time</div>
+        <ul class="tj-ul">
+          <li>Own and manage the product roadmap and backlog, prioritizing features based on business goals, user needs, and technical feasibility.</li>
+          <li>Translate product ideas into PRDs, user stories, and acceptance criteria to guide design and engineering teams.</li>
+          <li>Collaborate with engineering, design, and business stakeholders to deliver product features through agile sprint cycles.</li>
+          <li>Define and track key product metrics and KPIs, using data insights to guide product improvements and feature prioritization.</li>
+          <li>Conduct user research and stakeholder discussions to identify pain points and drive continuous product enhancements.</li>   </ul>
+      </div>
+      <div class="tj" style="transition-delay:.12s">
+        <div class="tj-hd"><div class="tj-role">Development Lead</div><div class="tj-date">Jan 2020 – Jan 2022</div></div>
+        <div class="tj-co">Webros Media Pvt Ltd Kerala · Full-time</div>
+        <ul class="tj-ul">
+          <li>Led a team of developers delivering consumer-facing features across mobile and web platforms, owning technical architecture decisions and sprint delivery.</li>
+          <li>Scoped, estimated, and sequenced feature work in close collaboration with stakeholders — balancing business priorities against engineering constraints and timelines.</li>
+          <li>Maintained cross-platform performance and consistency standards across a high-traffic consumer product.</li>
+        </ul>
+      </div>
+      <div class="tj" style="transition-delay:.24s">
+        <div class="tj-hd"><div class="tj-role">C# Developer</div><div class="tj-date">April 2019 – Aug 2019</div></div>
+        <div class="tj-co">Avidia Labs Pvt Ltd</div>
+        <ul class="tj-ul">
+          <li>Developed and maintained application features using C# with object-oriented programming principles.</li>
+          <li>Implemented, tested, and optimised system components to ensure performance, stability, and smooth deployment.</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="edu-t">Education</div>
+      <div class="edu-b">
+        <div class="edu-deg">PG Diploma in Product Design & Development</div>
+        <div class="edu-sch">Bharathiar University, Bangalore · 2017 – 2018</div>
+        <div class="edu-d">HCI, Interaction Design, User Research — the foundation of understanding users before building for them.</div>
+      </div>
+      <div class="ccedu-b">
+        <div class="edu-deg">Bachelor's in Physics</div>
+        <div class="edu-sch">Kannur University, Kannur · 2014 – 2017</div>
+        <div class="edu-d">Mathematics, analytical thinking, and first-principles reasoning — habits that never left.</div>
+      </div>
+      <div class="edu-t" style="margin-top:32px;">Certifications</div>
+      <div class="cert"><div class="cert-n">Google UX Design Certificate</div><div class="cert-y">Coursera · 2023</div></div>
+      <div class="cert"><div class="cert-n">Certified Associate in Project Management</div><div class="cert-y">SIMPLILEARN · 2022</div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="s3">
+<div class="w">
+  <div class="sh rv"><span class="sh-n">05</span><h2 class="sh-t">About Me</h2><div class="sh-r"></div></div>
+  <div class="about-g rv" style="transition-delay:.08s">
+    <div class="about-img">
+      <img src="assets/images/FAHIM.png" class="about-photo" alt="Fahim Abdulla">
+      <div class="about-img-bar"></div>
+    </div>
+    <div class="about-text">
+      <h3>Built for the<br>intersection of user,<br>tech, and business.</h3>
+      <p>I'm Fahim — a product person from Kozhikode, Kerala with <strong>5+ years of experience across engineering, design, and product</strong>. I've shipped code, led dev teams, run user research, and defined product strategy. I think in problems, not features.</p>
+      <p>I've spent my career in <strong>B2C consumer products</strong> — the fast, chaotic, high-stakes world where users vote with their thumb every second. I understand the difference between an engaged user and a retained user, and I build for the latter.</p>
+      <p>What makes me different as a PM candidate: <strong>I understand what it costs to build something</strong>. I've sat on the engineering side, I've sat on the design side, and I've been in every product review in between. I don't just write requirements — I write requirements that ship.</p>
+      <div class="vals">
+        <div class="val"><div class="val-i">🎯</div><div><b>Outcome-obsessed</b><span>I measure success by retention curves and activation rates, not feature launches or design polish.</span></div></div>
+        <div class="val"><div class="val-i">🔬</div><div><b>First-principles thinker</b><span>I don't follow best practices blindly. I break problems to their core and reason upward — even when that's uncomfortable.</span></div></div>
+        <div class="val"><div class="val-i">⚡</div><div><b>Bias for action</b><span>I prefer a launched product that teaches us something over a perfect spec that never sees users.</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="s2">
+<div class="w">
+  <div class="cbox rv">
+    <h2>Let's build<br><em>something great</em></h2>
+    <p>I'm open to Product Manager and Product Owner roles at B2C consumer apps. If you're building something users actually need — in social, commerce, health, jobs, or creator tools — I'd love to talk.</p>
+    <div class="clinks">
+      <a href="tel:+919961106993" class="cl">📞 +91 996 110 6993</a>
+      <a href="mailto:fahimabdulla@email.com" class="cl p">✉ Email Me</a>
+      <a href="https://www.linkedin.com/in/fahim-abdulla-mv-33135b166/" class="cl" target="_blank">LinkedIn ↗</a>
+      <a href="https://drive.google.com/file/d/1umeOks8AdwMYgDLtDUklFS2HH828HWXI/view?usp=sharing" class="cl" target="_blank">Download CV</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="fc">© 2025 <span>Fahim Abdulla</span> · Product Manager</div>
+  <div class="fs">Discover · Define · Prioritise · Execute · Measure</div>
+</footer>
+
+<script>
+const spb=document.getElementById('spb');
+window.addEventListener('scroll',()=>{
+  const pct=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100;
+  spb.style.width=Math.min(pct,100)+'%';
+},{passive:true});
+
+const cd=document.getElementById('cd'),cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function loop(){
+  cd.style.left=mx+'px';cd.style.top=my+'px';
+  rx+=(mx-rx)*.1;ry+=(my-ry)*.1;
+  cr.style.left=rx+'px';cr.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+
+const io=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in');});
+},{threshold:.08,rootMargin:'0px 0px -32px 0px'});
+document.querySelectorAll('.rv,.tj,.tt-item').forEach(el=>io.observe(el));
+
+const sects=document.querySelectorAll('section[id]');
+const navAs=document.querySelectorAll('.nls a');
+const spy=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      navAs.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));
+    }
+  });
+},{rootMargin:'-45% 0px -45% 0px'});
+sects.forEach(s=>spy.observe(s));
+</script>
+</body>
+</html>
